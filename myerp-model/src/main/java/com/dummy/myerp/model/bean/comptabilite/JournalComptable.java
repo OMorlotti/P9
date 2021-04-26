@@ -1,5 +1,8 @@
 package com.dummy.myerp.model.bean.comptabilite;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 import java.util.Objects;
 import javax.validation.constraints.NotNull;
@@ -9,6 +12,9 @@ import javax.validation.constraints.Size;
 /**
  * Bean représentant un Journal Comptable
  */
+
+@Getter
+@Setter
 public class JournalComptable {
 
     // ==================== Attributs ====================
@@ -40,22 +46,6 @@ public class JournalComptable {
         code = pCode;
         libelle = pLibelle;
     }
-
-
-    // ==================== Getters/Setters ====================
-    public String getCode() {
-        return code;
-    }
-    public void setCode(String pCode) {
-        code = pCode;
-    }
-    public String getLibelle() {
-        return libelle;
-    }
-    public void setLibelle(String pLibelle) {
-        libelle = pLibelle;
-    }
-
 
     // ==================== Méthodes ====================
     @Override

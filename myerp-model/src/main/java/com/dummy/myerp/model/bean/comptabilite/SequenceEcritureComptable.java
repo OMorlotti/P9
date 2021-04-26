@@ -1,9 +1,15 @@
 package com.dummy.myerp.model.bean.comptabilite;
 
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Bean représentant une séquence pour les références d'écriture comptable
  */
+
+@Setter
+@Getter
 public class SequenceEcritureComptable {
 
     // ==================== Attributs ====================
@@ -29,22 +35,6 @@ public class SequenceEcritureComptable {
         annee = pAnnee;
         derniereValeur = pDerniereValeur;
     }
-
-
-    // ==================== Getters/Setters ====================
-    public Integer getAnnee() {
-        return annee;
-    }
-    public void setAnnee(Integer pAnnee) {
-        annee = pAnnee;
-    }
-    public Integer getDerniereValeur() {
-        return derniereValeur;
-    }
-    public void setDerniereValeur(Integer pDerniereValeur) {
-        derniereValeur = pDerniereValeur;
-    }
-
 
     // ==================== Méthodes ====================
     @Override
