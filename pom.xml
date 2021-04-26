@@ -141,6 +141,13 @@
 
 
             <!-- ========== Libraries ========== -->
+            <!-- ===== Lombok ===== -->
+            <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.20</version>
+            </dependency>
             <!-- ===== Log4j ===== -->
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
