@@ -12,11 +12,18 @@ public class EcritureComptableTest {
     private LigneEcritureComptable createLigne(Integer pCompteComptableNumero, String pDebit, String pCredit) {
         BigDecimal vDebit = pDebit == null ? null : new BigDecimal(pDebit);
         BigDecimal vCredit = pCredit == null ? null : new BigDecimal(pCredit);
-        String vLibelle = ObjectUtils.defaultIfNull(vDebit, BigDecimal.ZERO)
-                                     .subtract(ObjectUtils.defaultIfNull(vCredit, BigDecimal.ZERO)).toPlainString();
-        LigneEcritureComptable vRetour = new LigneEcritureComptable(new CompteComptable(pCompteComptableNumero),
-                                                                    vLibelle,
-                                                                    vDebit, vCredit);
+
+        String vLibelle = ObjectUtils.defaultIfNull(vDebit, BigDecimal.ZERO).subtract(ObjectUtils.defaultIfNull(vCredit, BigDecimal.ZERO))
+                                                                            .toPlainString()
+        ;
+
+        LigneEcritureComptable vRetour = new LigneEcritureComptable(
+            new CompteComptable(pCompteComptableNumero),
+            vLibelle,
+            vDebit,
+            vCredit
+        );
+
         return vRetour;
     }
 
@@ -33,6 +40,7 @@ public class EcritureComptableTest {
         Assert.assertTrue(vEcriture.toString(), vEcriture.isEquilibree());
 
         vEcriture.getListLigneEcriture().clear();
+
         vEcriture.setLibelle("Non équilibrée");
         vEcriture.getListLigneEcriture().add(this.createLigne(1, "10", null));
         vEcriture.getListLigneEcriture().add(this.createLigne(1, "20", "1"));

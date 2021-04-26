@@ -24,7 +24,7 @@ public class EcritureComptable {
     /** Journal comptable */
     @NotNull private JournalComptable journal;
     /** The Reference. */
-    @Pattern(regexp = "\\d{1,5}-\\d{4}/\\d{5}")
+    @Pattern(regexp = "\\D{1,5}-\\d{4}/\\d{5}") // Erreur sur l'expression régulière : \D au lieu de \d
     private String reference;
     /** The Date. */
     @NotNull private Date date;
@@ -99,8 +99,8 @@ public class EcritureComptable {
     public BigDecimal getTotalCredit() {
         BigDecimal vRetour = BigDecimal.ZERO;
         for (LigneEcritureComptable vLigneEcritureComptable : listLigneEcriture) {
-            if (vLigneEcritureComptable.getDebit() != null) {
-                vRetour = vRetour.add(vLigneEcritureComptable.getDebit());
+            if (vLigneEcritureComptable.getCredit() != null) { // Correction getCredit au lieu de getDebit
+                vRetour = vRetour.add(vLigneEcritureComptable.getCredit()); // Correction getCredit au lieu de getDebit
             }
         }
         return vRetour;
@@ -111,7 +111,7 @@ public class EcritureComptable {
      * @return boolean
      */
     public boolean isEquilibree() {
-        boolean vRetour = this.getTotalDebit().equals(getTotalCredit());
+        boolean vRetour = this.getTotalDebit().compareTo(getTotalCredit()) == 0; // il faut utiliser compareTo au lieu de equals
         return vRetour;
     }
 
