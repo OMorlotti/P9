@@ -1,11 +1,14 @@
 package com.dummy.myerp.consumer.test;
 
 import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
+import com.dummy.myerp.model.bean.CompteComptable;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.List;
 
 public class DaoTest
 {
@@ -24,6 +27,8 @@ public class DaoTest
 	@Test
 	public void journalTest()
 	{
-		daoProxy.getComptabiliteDao().getListCompteComptable();
+		List<CompteComptable> list = daoProxy.getComptabiliteDao().getListCompteComptable();
+
+		Assert.assertFalse(list.isEmpty());
 	}
 }
