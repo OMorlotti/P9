@@ -8,13 +8,13 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class SpringAppTest
 {
-	private static final String APPLICATION_CONTEXT_XML_1 = "classpath:/com/dummy/myerp/consumer/applicationContext.xml";
-	private static final String APPLICATION_CONTEXT_XML_2 = "classpath:/com/dummy/myerp/consumer/test/applicationContext.xml";
+	private static final String APPLICATION_CONTEXT_XML = "classpath:/com/dummy/myerp/consumer/applicationContext.xml";
+	private static final String TEST_APPLICATION_CONTEXT_XML = "classpath:/com/dummy/myerp/consumer/test/applicationContext.xml";
 
 	@Test
-	public void springAppTest1()
+	public void springAppTest()
 	{
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext(APPLICATION_CONTEXT_XML_1);
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext(APPLICATION_CONTEXT_XML);
 
 		DaoProxy daoProxy = (DaoProxy) applicationContext.getBean("DaoProxy");
 
@@ -22,9 +22,9 @@ public class SpringAppTest
 	}
 
 	@Test
-	public void springAppTest2()
+	public void springTestAppTest()
 	{
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext(APPLICATION_CONTEXT_XML_2);
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext(TEST_APPLICATION_CONTEXT_XML);
 
 		DaoProxy daoProxy = (DaoProxy) applicationContext.getBean("DaoProxy");
 
