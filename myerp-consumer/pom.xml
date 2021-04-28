@@ -46,6 +46,10 @@
         <!-- ===== Modules ===== -->
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>myerp-technical</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>myerp-model</artifactId>
         </dependency>
 
