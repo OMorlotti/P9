@@ -1,4 +1,4 @@
-package com.dummy.myerp.model.bean.comptabilite;
+package com.dummy.myerp.model.test;
 
 
 import java.math.BigDecimal;
@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
 

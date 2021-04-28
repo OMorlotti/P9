@@ -1,6 +1,5 @@
-package com.dummy.myerp.model.bean.comptabilite;
+package com.dummy.myerp.model.test;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,10 +1,8 @@
-package com.dummy.myerp.model.bean.comptabilite;
+package com.dummy.myerp.model.test;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.math.BigDecimal;
 
 
 public class SequenceEcritureComptableTest

@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import org.junit.Test;
-import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
-import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
-import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
-import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
+import com.dummy.myerp.model.test.CompteComptable;
+import com.dummy.myerp.model.test.EcritureComptable;
+import com.dummy.myerp.model.test.JournalComptable;
+import com.dummy.myerp.model.test.LigneEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 
 
