@@ -1,5 +1,7 @@
 package com.dummy.myerp.model.test;
 
+import com.dummy.myerp.model.bean.CompteComptable;
+import com.dummy.myerp.model.bean.LigneEcritureComptable;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

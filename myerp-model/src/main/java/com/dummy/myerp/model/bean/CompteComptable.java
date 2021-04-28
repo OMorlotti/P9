@@ -1,4 +1,4 @@
-package com.dummy.myerp.model.test;
+package com.dummy.myerp.model.bean;
 
 
 import lombok.Getter;

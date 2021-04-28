@@ -2,6 +2,9 @@ package com.dummy.myerp.model.test;
 
 import java.math.BigDecimal;
 
+import com.dummy.myerp.model.bean.CompteComptable;
+import com.dummy.myerp.model.bean.EcritureComptable;
+import com.dummy.myerp.model.bean.LigneEcritureComptable;
 import org.apache.commons.lang3.ObjectUtils;
 import org.junit.Assert;
 import org.junit.Test;
