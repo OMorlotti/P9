@@ -1,6 +1,5 @@
 package com.dummy.myerp.model.bean;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +12,8 @@ import lombok.Setter;
 public class SequenceEcritureComptable {
 
     // ==================== Attributs ====================
+    /** Le code du journal */
+    private String journalCode;
     /** L'année */
     private Integer annee;
     /** La dernière valeur utilisée */

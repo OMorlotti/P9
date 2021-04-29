@@ -1,11 +1,8 @@
 package com.dummy.myerp.consumer.test;
 
 import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
-import com.dummy.myerp.model.bean.CompteComptable;
-import com.dummy.myerp.model.bean.EcritureComptable;
+import com.dummy.myerp.model.bean.*;
 
-import com.dummy.myerp.model.bean.JournalComptable;
-import com.dummy.myerp.model.bean.LigneEcritureComptable;
 import com.dummy.myerp.technical.exception.NotFoundException;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -61,6 +58,13 @@ public class DaoTest
 		Assert.assertFalse(list.isEmpty());
 	}
 
+	@Test
+	public void sequenceEcritureComptableNotEmptyTest()
+	{
+		List<SequenceEcritureComptable> list = daoProxy.getComptabiliteDao().getListSequenceEcritureComptable();
+
+		Assert.assertFalse(list.isEmpty());
+	}
 
 	/*
 	TESTS D'OPÉRATIONS DE LECTURE DES ENTITÉS
@@ -99,6 +103,16 @@ public class DaoTest
 		Assert.assertEquals("Vente", journalComptable.getLibelle());
 	}
 
+	@Test
+	public void sequenceEcritureComptableTest() throws NotFoundException
+	{
+		SequenceEcritureComptable sequenceEcritureComptable = daoProxy.getComptabiliteDao().getSequenceEcritureComptable("VE", 2016);
+
+		Assert.assertEquals("VE", sequenceEcritureComptable.getJournalCode());
+		Assert.assertTrue(sequenceEcritureComptable.getAnnee() == 2016);
+		Assert.assertTrue(sequenceEcritureComptable.getDerniereValeur() == 41);
+	}
+
 	/*
 	TESTS ENTITÉS LIÉES : SÉQUENCE ÉCRITURE COMPTABLE + LIGNE ÉCRITURE COMPTABLE
 	 */
@@ -117,5 +131,4 @@ public class DaoTest
 		LigneEcritureComptable ligneEcritureComptable3 = list.get(2);
 		Assert.assertFalse(ligneEcritureComptable3.getCompteComptable().getNumero() == 403);
 	}
-
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import com.dummy.myerp.model.bean.CompteComptable;
 import com.dummy.myerp.model.bean.EcritureComptable;
 import com.dummy.myerp.model.bean.JournalComptable;
+import com.dummy.myerp.model.bean.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
 
@@ -12,6 +13,7 @@ import com.dummy.myerp.technical.exception.NotFoundException;
  * Interface de DAO des objets du package Comptabilite
  */
 public interface ComptabiliteDao {
+    // ==================== LectureComptable ====================
 
     /**
      * Renvoie la liste des Comptes Comptables
@@ -25,7 +27,6 @@ public interface ComptabiliteDao {
      * @return {@link List}
      */
     List<JournalComptable> getListJournalComptable();
-
 
     // ==================== EcritureComptable ====================
 
@@ -80,4 +81,36 @@ public interface ComptabiliteDao {
      * @param pId l'id de l'écriture
      */
     void deleteEcritureComptable(Integer pId);
+
+    // ==================== SequenceEcritureComptable ====================
+
+    /**
+     * Renvoie la liste des Séquences d'écriture comptable
+     * @return {@link List}
+     */
+    List<SequenceEcritureComptable> getListSequenceEcritureComptable();
+
+    /**
+     * Renvoi la Sequence d'écriture comptable correspondante au Journal comptable pour l'année donnée
+     *
+     * @param pJournalCode -
+     * @param pAnnee -
+     * @return {@link SequenceEcritureComptable}
+     * @throws NotFoundException Si la séquence n'est pas trouvée
+     */
+    SequenceEcritureComptable getSequenceEcritureComptable(String pJournalCode, int pAnnee) throws NotFoundException;
+
+    /**
+     * Insert une nouvelle séquence d'écriture comptable.
+     *
+     * @param sequence -
+     */
+    void insertSequenceEcritureComptable(SequenceEcritureComptable sequence);
+
+    /**
+     * Met à jour la séquence de l'écriture comptable.
+     *
+     * @param sequence -
+     */
+    void updateSequenceEcritureComptable(SequenceEcritureComptable sequence);
 }
