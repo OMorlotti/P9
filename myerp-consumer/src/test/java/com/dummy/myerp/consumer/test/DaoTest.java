@@ -118,7 +118,7 @@ public class DaoTest
 	 */
 
 	@Test
-	public void ligneEcritureComptableTest() throws NotFoundException
+	public void ligneEcritureComptableToEcritureComptableTest() throws NotFoundException
 	{
 		List<LigneEcritureComptable> list = daoProxy.getComptabiliteDao().getEcritureComptableByRef("AC-2016/00001").getListLigneEcriture();
 
@@ -131,4 +131,34 @@ public class DaoTest
 		LigneEcritureComptable ligneEcritureComptable3 = list.get(2);
 		Assert.assertFalse(ligneEcritureComptable3.getCompteComptable().getNumero() == 403);
 	}
+
+	@Test
+	public void ecritureComptableToJournalComptableTest() throws NotFoundException
+	{
+		JournalComptable journal1 = daoProxy.getComptabiliteDao().getEcritureComptableByRef("AC-2016/00001").getJournal();
+
+		Assert.assertEquals("AC", journal1.getCode());
+		Assert.assertEquals("Achat", journal1.getLibelle());
+
+		JournalComptable journal2 = daoProxy.getComptabiliteDao().getEcritureComptableByRef("VE-2016/00004").getJournal();
+
+		Assert.assertEquals("VE", journal2.getCode());
+		Assert.assertEquals("Vente", journal2.getLibelle());
+	}
+
+	@Test
+	public void ligneEcritureComptableToCompteComptableTest() throws NotFoundException
+	{
+		List<LigneEcritureComptable> list = daoProxy.getComptabiliteDao().getEcritureComptableByRef("AC-2016/00001").getListLigneEcriture();
+
+		LigneEcritureComptable ligneEcritureComptable = list.get(0);
+
+		Assert.assertTrue(ligneEcritureComptable.getCompteComptable().getNumero() == 606);
+
+		CompteComptable compteComptable = ligneEcritureComptable.getCompteComptable();
+
+		Assert.assertTrue(compteComptable.getNumero() == 606);
+		Assert.assertEquals("Achats non stockés de matières et fournitures", compteComptable.getLibelle());
+	}
+
 }
