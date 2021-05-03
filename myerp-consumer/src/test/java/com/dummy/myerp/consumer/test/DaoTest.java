@@ -10,7 +10,9 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class DaoTest
@@ -21,6 +23,7 @@ public class DaoTest
 
 	private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+	private static SimpleDateFormat simpleYearFormat = new SimpleDateFormat("yyyy");
 
 	@BeforeClass
 	public static void iniTests()
@@ -161,4 +164,110 @@ public class DaoTest
 		Assert.assertEquals("Achats non stockés de matières et fournitures", compteComptable.getLibelle());
 	}
 
+	/*
+	TESTS EN CRÉATION/ÉDITION ET SUPPRESSION
+	 */
+
+	private EcritureComptable createEcritureComptable()
+	{
+		List<JournalComptable> list = daoProxy.getComptabiliteDao().getListJournalComptable();
+
+		JournalComptable journalComptable = JournalComptable.getByCode(list, "VE");
+
+		/**/
+
+		EcritureComptable ecritureComptable = new EcritureComptable();
+
+		ecritureComptable.setJournal(journalComptable);
+		ecritureComptable.setLibelle("Test");
+		ecritureComptable.setDate(new Date());
+		ecritureComptable.setReference(ecritureComptable.getJournal().getCode() + "-" + simpleYearFormat.format(new Date()) + "/99999");
+
+		ecritureComptable.getListLigneEcriture().add(
+			new LigneEcritureComptable(
+				new CompteComptable(401),
+				"Test 1",
+				new BigDecimal(135),
+				null
+			)
+		);
+
+		ecritureComptable.getListLigneEcriture().add(
+			new LigneEcritureComptable(
+				new CompteComptable(411),
+				"Test 2",
+				null,
+				new BigDecimal(246)
+			)
+		);
+
+		return ecritureComptable;
+	}
+
+	@Test
+	public void createEcritureComptableTest()
+	{
+		EcritureComptable ecritureComptable = createEcritureComptable();
+
+		daoProxy.getComptabiliteDao().insertEcritureComptable(ecritureComptable);
+
+		Assert.assertNotNull(ecritureComptable.getId());
+
+		daoProxy.getComptabiliteDao().deleteEcritureComptable(ecritureComptable.getId());
+	}
+
+	@Test
+	public void updateEcritureComptable() throws NotFoundException
+	{
+		EcritureComptable ecritureComptable = createEcritureComptable();
+
+		daoProxy.getComptabiliteDao().insertEcritureComptable(ecritureComptable);
+
+		int id = ecritureComptable.getId();
+		String reference = ecritureComptable.getReference();
+
+		/**/
+
+		ecritureComptable = daoProxy.getComptabiliteDao().getEcritureComptableByRef(reference);
+
+		ecritureComptable.setLibelle("Test BIS");
+
+		daoProxy.getComptabiliteDao().updateEcritureComptable(ecritureComptable);
+
+		/**/
+
+		ecritureComptable = daoProxy.getComptabiliteDao().getEcritureComptableByRef(reference);
+
+		Assert.assertEquals("Test BIS", ecritureComptable.getLibelle());
+
+		daoProxy.getComptabiliteDao().deleteEcritureComptable(id);
+	}
+
+	@Test
+	public void deleteEcritureComptable() throws NotFoundException
+	{
+		EcritureComptable ecritureComptable = createEcritureComptable();
+
+		daoProxy.getComptabiliteDao().insertEcritureComptable(ecritureComptable);
+
+		int id = ecritureComptable.getId();
+		String reference = ecritureComptable.getReference();
+
+		/**/
+
+		daoProxy.getComptabiliteDao().deleteEcritureComptable(id);
+
+		/**/
+
+		try
+		{
+			daoProxy.getComptabiliteDao().getEcritureComptableByRef(reference);
+
+			Assert.fail();
+		}
+		catch(NotFoundException e)
+		{
+			/* success */
+		}
+	}
 }
