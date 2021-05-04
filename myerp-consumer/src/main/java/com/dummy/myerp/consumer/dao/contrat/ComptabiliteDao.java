@@ -113,4 +113,12 @@ public interface ComptabiliteDao {
      * @param sequence -
      */
     void updateSequenceEcritureComptable(SequenceEcritureComptable sequence);
+
+    /**
+     * Supprime la séquence d'écriture comptable de code journal {@code pJournalCode} et d'année {@code pAnnee}.
+     *
+     * @param pJournalCode le code journal de la séquence d'écriture
+     * @param pAnnee l'année de la séquence d'écriture
+     */
+    public void deleteSequenceEcritureComptable(String pJournalCode, int pAnnee);
 }

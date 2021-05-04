@@ -117,7 +117,7 @@ public class DaoTest
 	}
 
 	/*
-	TESTS ENTITÉS LIÉES : SÉQUENCE ÉCRITURE COMPTABLE + LIGNE ÉCRITURE COMPTABLE
+	TESTS ENTITÉS LIÉES : LIGNE ÉCRITURE COMPTABLE + LIGNE ÉCRITURE COMPTABLE
 	 */
 
 	@Test
@@ -205,11 +205,13 @@ public class DaoTest
 	}
 
 	@Test
-	public void createEcritureComptableTest()
+	public void insertEcritureComptableTest()
 	{
 		EcritureComptable ecritureComptable = createEcritureComptable();
 
 		daoProxy.getComptabiliteDao().insertEcritureComptable(ecritureComptable);
+
+		/**/
 
 		Assert.assertNotNull(ecritureComptable.getId());
 
@@ -269,5 +271,60 @@ public class DaoTest
 		{
 			/* success */
 		}
+	}
+
+	private SequenceEcritureComptable createSequenceEcritureComptable()
+	{
+		SequenceEcritureComptable sequenceEcritureComptable = new SequenceEcritureComptable();
+
+		sequenceEcritureComptable.setJournalCode("AC");
+		sequenceEcritureComptable.setAnnee(2021);
+		sequenceEcritureComptable.setDerniereValeur(99);
+
+		return sequenceEcritureComptable;
+	}
+
+	@Test
+	public void insertSequenceEcritureComptableTest() throws NotFoundException
+	{
+		SequenceEcritureComptable sequenceEcritureComptable = createSequenceEcritureComptable();
+
+		daoProxy.getComptabiliteDao().insertSequenceEcritureComptable(sequenceEcritureComptable);
+
+		/**/
+
+		SequenceEcritureComptable lastSequenceEcritureComptable = daoProxy.getComptabiliteDao().getSequenceEcritureComptable("AC", 2021);
+
+		Assert.assertEquals("AC", sequenceEcritureComptable.getJournalCode());
+		Assert.assertTrue(lastSequenceEcritureComptable.getAnnee() == 2021);
+		Assert.assertTrue(lastSequenceEcritureComptable.getDerniereValeur() == 99);
+
+		daoProxy.getComptabiliteDao().deleteSequenceEcritureComptable("AC", 2021);
+	}
+
+	@Test
+	public void updateSequenceEcritureComptableTest() throws NotFoundException {
+
+		SequenceEcritureComptable sequenceEcritureComptable = createSequenceEcritureComptable();
+
+		daoProxy.getComptabiliteDao().insertSequenceEcritureComptable(sequenceEcritureComptable);
+
+		/**/
+
+		SequenceEcritureComptable lastSequenceEcritureComptable1 = daoProxy.getComptabiliteDao().getSequenceEcritureComptable("AC", 2021);
+
+		lastSequenceEcritureComptable1.setDerniereValeur(100);
+
+		daoProxy.getComptabiliteDao().updateSequenceEcritureComptable(lastSequenceEcritureComptable1);
+
+		/**/
+
+		SequenceEcritureComptable lastSequenceEcritureComptable2 = daoProxy.getComptabiliteDao().getSequenceEcritureComptable("AC", 2021);
+
+		Assert.assertEquals("AC", sequenceEcritureComptable.getJournalCode());
+		Assert.assertTrue(lastSequenceEcritureComptable2.getAnnee() == 2021);
+		Assert.assertTrue(lastSequenceEcritureComptable2.getDerniereValeur() == 100);
+
+		daoProxy.getComptabiliteDao().deleteSequenceEcritureComptable("AC", 2021);
 	}
 }
