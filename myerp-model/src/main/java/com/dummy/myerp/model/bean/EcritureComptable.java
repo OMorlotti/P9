@@ -23,7 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 @Setter
 public class EcritureComptable {
 
-    public static final String REFERENCE_PATTERN = "\\D{1,5}-\\d{4}/\\d{5}";
+    public static final String REFERENCE_PATTERN = "(\\D{1,5})-(\\d{4})/(\\d{5})";
 
     // ==================== Attributs ====================
     /** The Id. */
