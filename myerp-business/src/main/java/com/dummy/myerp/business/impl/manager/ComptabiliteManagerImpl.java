@@ -61,7 +61,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      */
     // TODO à tester
     @Override
-    public synchronized void addReference(EcritureComptable pEcritureComptable) {
+    public synchronized void associateReference(EcritureComptable pEcritureComptable) {
         // Bien se réferer à la JavaDoc de cette méthode !
         /* Le principe :
                 1.  Remonter depuis la persistance la dernière valeur de la séquence du journal pour l'année de l'écriture
@@ -180,37 +180,49 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 
         // ===== RG_Compta_5 : Format et contenu de la référence
         // vérifier que l'année dans la référence correspond bien à la date de l'écriture, idem pour le code journal...
-        Pattern pattern = Pattern.compile(EcritureComptable.REFERENCE_PATTERN);
 
-        Matcher m = pattern.matcher(pEcritureComptable.getReference());
+        String reference = pEcritureComptable.getReference();
 
-        if(m.find())
+        if(reference != null)
         {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(pEcritureComptable.getDate());
+            Pattern pattern = Pattern.compile(EcritureComptable.REFERENCE_PATTERN);
 
-            int annee1 = calendar.get(Calendar.YEAR);
+            Matcher m = pattern.matcher(reference);
 
-            String journalCode = m.group(1);
-            String annee2 = m.group(2);
-
-            if(!journalCode.equals(pEcritureComptable.getJournal().getCode()))
+            if(m.find())
             {
-                throw new FunctionalException(
-                    "Le code journal ne correspond pas"
-                );
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(pEcritureComptable.getDate());
+
+                int annee1 = calendar.get(Calendar.YEAR);
+
+                String journalCode = m.group(1);
+                String annee2 = m.group(2);
+
+                if(!journalCode.equals(pEcritureComptable.getJournal().getCode()))
+                {
+                    throw new FunctionalException(
+                        "Le code journal ne correspond pas"
+                    );
+                }
+                if(annee1 != Integer.parseInt(annee2))
+                {
+                    throw new FunctionalException(
+                        "L'année ne correspond pas"
+                    );
+                }
             }
-            if(annee1 != Integer.parseInt(annee2))
+            else
             {
                 throw new FunctionalException(
-                    "L'année ne correspond pas'"
+                    "Format de référence invalide"
                 );
             }
         }
         else
         {
             throw new FunctionalException(
-                "Format de référence invalide"
+                "Référence non spécifiée"
             );
         }
     }
