@@ -60,7 +60,11 @@ public class MyErpIntegrationTest extends BusinessTestCase
 			new CompteComptable(706), "Libellé de test", null, new BigDecimal(456))
 		);
 
-		comptabiliteManager.checkEcritureComptable(vEcritureComptable);
+		comptabiliteManager.insertEcritureComptable(vEcritureComptable);
+
+		comptabiliteManager.updateEcritureComptable(vEcritureComptable);
+
+		comptabiliteManager.deleteEcritureComptable(vEcritureComptable.getId());
 	}
 
 	@Test(expected = FunctionalException.class)
