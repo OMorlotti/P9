@@ -38,23 +38,26 @@ public class MyErpIntegrationTest extends BusinessTestCase
 		List<JournalComptable> journalComptableList = comptabiliteManager.getListJournalComptable();
 		Assert.assertFalse(journalComptableList.isEmpty());
 	}
-	/*
+
 	@Test
 	public void ecritureComptable() throws FunctionalException
 	{
-		EcritureComptable vEcritureComptable = new EcritureComptable();
-
-		vEcritureComptable.setJournal(new JournalComptable("AC", "Achats"));
-		vEcritureComptable.setDate((new Date()));
+		Date dateEnCours = new Date();
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
-		String yearRef = simpleDateFormat.format(vEcritureComptable.getDate());
+		String yearRef = simpleDateFormat.format(dateEnCours);
 
-		vEcritureComptable.setReference("AC-" + yearRef + "/0001");
-		vEcritureComptable.setLibelle("Libellé");
-		vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-			null, new BigDecimal(123), null));
-		vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
-			null, null, new BigDecimal(123)));
+		EcritureComptable vEcritureComptable = new EcritureComptable();
+		vEcritureComptable.setJournal(new JournalComptable("VE", "Vente"));
+		vEcritureComptable.setReference("VE-" + yearRef + "/00006");
+		vEcritureComptable.setDate(dateEnCours);
+		vEcritureComptable.setLibelle("Libellé de test");
+
+		vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(
+			new CompteComptable(411), null, new BigDecimal(456), null)
+		);
+		vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(
+			new CompteComptable(706), null, null, new BigDecimal(456))
+		);
 
 		comptabiliteManager.checkEcritureComptable(vEcritureComptable);
 	}
