@@ -40,31 +40,31 @@ public class MyErpIntegrationTest extends BusinessTestCase
 	}
 
 	@Test
-	public void ecritureComptableReturnsError() throws FunctionalException
+	public void ecritureComptableCheckSuccess() throws FunctionalException
 	{
 		Date dateEnCours = new Date();
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
 		String yearRef = simpleDateFormat.format(dateEnCours);
 
 		EcritureComptable vEcritureComptable = new EcritureComptable();
-		vEcritureComptable.setId(45645);
+		vEcritureComptable.setId(456646321);
 		vEcritureComptable.setJournal(new JournalComptable("VE", "Vente"));
 		vEcritureComptable.setReference("VE-" + yearRef + "/00006");
 		vEcritureComptable.setDate(dateEnCours);
 		vEcritureComptable.setLibelle("Libellé de test");
 
 		vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(
-			new CompteComptable(411), null, new BigDecimal(456), null)
+			new CompteComptable(411), "Libellé de test", new BigDecimal(456), null)
 		);
 		vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(
-			new CompteComptable(706), null, null, new BigDecimal(456))
+			new CompteComptable(706), "Libellé de test", null, new BigDecimal(456))
 		);
 
 		comptabiliteManager.checkEcritureComptable(vEcritureComptable);
 	}
 
 	@Test(expected = FunctionalException.class)
-	public void ecritureComptableReturnsNoError() throws FunctionalException
+	public void ecritureComptableCheckError() throws FunctionalException
 	{
 		Date dateEnCours = new Date();
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
@@ -84,5 +84,16 @@ public class MyErpIntegrationTest extends BusinessTestCase
 		);
 
 		comptabiliteManager.updateEcritureComptable(vEcritureComptable);
+	}
+
+	@Test
+	public void ecritureComptableUpdate() throws FunctionalException
+	{
+		List<EcritureComptable> ecrituresComptable = comptabiliteManager.getListEcritureComptable();
+
+		if(!ecrituresComptable.isEmpty())
+		{
+			comptabiliteManager.updateEcritureComptable(ecrituresComptable.get(0));
+		}
 	}
 }
