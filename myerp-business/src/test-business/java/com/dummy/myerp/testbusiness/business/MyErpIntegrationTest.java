@@ -40,13 +40,14 @@ public class MyErpIntegrationTest extends BusinessTestCase
 	}
 
 	@Test
-	public void ecritureComptable() throws FunctionalException
+	public void ecritureComptableReturnsError() throws FunctionalException
 	{
 		Date dateEnCours = new Date();
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
 		String yearRef = simpleDateFormat.format(dateEnCours);
 
 		EcritureComptable vEcritureComptable = new EcritureComptable();
+		vEcritureComptable.setId(45645);
 		vEcritureComptable.setJournal(new JournalComptable("VE", "Vente"));
 		vEcritureComptable.setReference("VE-" + yearRef + "/00006");
 		vEcritureComptable.setDate(dateEnCours);
@@ -61,47 +62,27 @@ public class MyErpIntegrationTest extends BusinessTestCase
 
 		comptabiliteManager.checkEcritureComptable(vEcritureComptable);
 	}
-/*
-	@Test
-	public void insertEcritureComptableReturnNoError() throws FunctionalException
+
+	@Test(expected = FunctionalException.class)
+	public void ecritureComptableReturnsNoError() throws FunctionalException
 	{
-		EcritureComptable vEcrirureComptable = new EcritureComptable();
-		vEcrirureComptable.setJournal(new JournalComptable("VE", "Vente"));
-		vEcrirureComptable.setReference("VE-2021/00007");
-		vEcrirureComptable.setDate(new Date());
-		vEcrirureComptable.setLibelle("Test intégration vente");
+		Date dateEnCours = new Date();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
+		String yearRef = simpleDateFormat.format(dateEnCours);
 
-		vEcrirureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(411),
-			null, new BigDecimal(123), null));
-		vEcrirureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(706),
-			null, null, new BigDecimal(123)));
+		EcritureComptable vEcritureComptable = new EcritureComptable();
+		vEcritureComptable.setJournal(new JournalComptable("VE", "Vente"));
+		//vEcritureComptable.setReference("VE-" + yearRef + "/00006"); // On commente par exemple la référence
+		vEcritureComptable.setDate(dateEnCours);
+		vEcritureComptable.setLibelle("Libellé de test");
 
-		comptabiliteManager.insertEcritureComptable(vEcrirureComptable);
+		vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(
+			new CompteComptable(411), null, new BigDecimal(456), null)
+		);
+		vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(
+			new CompteComptable(706), null, null, new BigDecimal(456))
+		);
 
-		List<CompteComptable> ecritureComptableList = comptabiliteManager.getListCompteComptable();
-
-		BigDecimal vRetour = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_UP);
-		vRetour = vRetour.add(new BigDecimal(123));
-
-		for (CompteComptable ecritureComptable: ecritureComptableList)
-		{
-			if (ecritureComptable.getReference().equals("VE-2021/00007"))
-			{
-				Assert.assertEquals(ecritureComptable.getLibelle(),"Test intégration vente");
-
-				for (LigneEcritureComptable ligneEcritureComptable = ecritureComptable.getListLigneEcriture())
-				{
-					if (ligneEcritureComptable.getCredit() != null)
-					{
-						Assert.assertEquals(ligneEcritureComptable.getCredit(), vRetour);
-					}
-					if(ligneEcritureComptable.getDebit() != null)
-					{
-						Assert.assertEquals(ligneEcritureComptable.getDebit(), vRetour);
-					}
-				}
-			}
-		}
+		comptabiliteManager.updateEcritureComptable(vEcritureComptable);
 	}
-	*/
 }
