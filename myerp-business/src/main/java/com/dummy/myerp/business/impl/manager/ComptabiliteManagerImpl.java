@@ -112,7 +112,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         pEcritureComptable.setReference(reference);
 
         //4.
-        if (derniereSequenceComptable == null)
+        if (nouvelleValeur == 1)
         {
             getDaoProxy().getComptabiliteDao().insertSequenceEcritureComptable(derniereSequenceComptable);
         }
