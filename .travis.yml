@@ -3,4 +3,4 @@ jdk: openjdk8
 
 script:
   - jdk_switcher use openjdk8
-  - mvn clean package sonar:sonar
+  - mvn package sonar:sonar
