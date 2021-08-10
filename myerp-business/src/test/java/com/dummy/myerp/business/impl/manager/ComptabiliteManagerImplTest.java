@@ -8,6 +8,7 @@ import com.dummy.myerp.business.contrat.BusinessProxy;
 import com.dummy.myerp.business.impl.TransactionManager;
 import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
 import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import com.dummy.myerp.model.bean.CompteComptable;
@@ -47,7 +48,8 @@ public class ComptabiliteManagerImplTest {
     }
 
     @Test
-    public void checkEcritureComptableUnit() throws Exception {
+    public void checkEcritureComptableUnit()
+    {
         EcritureComptable vEcritureComptable;
         vEcritureComptable = new EcritureComptable();
 
@@ -61,11 +63,19 @@ public class ComptabiliteManagerImplTest {
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
                                                                                  null, null,
                                                                                  new BigDecimal(123)));
-        manager.checkEcritureComptableUnit(vEcritureComptable);
+        try
+        {
+            manager.checkEcritureComptableUnit(vEcritureComptable);
+        }
+        catch(FunctionalException e)
+        {
+            Assert.fail();
+        }
     }
 
     @Test(expected = FunctionalException.class)
-    public void checkEcritureComptableUnitRG5BadJournal() throws Exception {
+    public void checkEcritureComptableUnitRG5BadJournal() throws FunctionalException
+    {
         EcritureComptable vEcritureComptable;
         vEcritureComptable = new EcritureComptable();
 
@@ -161,7 +171,8 @@ public class ComptabiliteManagerImplTest {
     }
 
     @Test
-    public void associateReferenceUnit() throws Exception {
+    public void associateReferenceUnit()
+    {
         EcritureComptable vEcritureComptable;
         vEcritureComptable = new EcritureComptable();
 
@@ -177,6 +188,13 @@ public class ComptabiliteManagerImplTest {
 
         manager.associateReference(vEcritureComptable);
 
-        manager.checkEcritureComptableUnit(vEcritureComptable);
+        try
+        {
+            manager.checkEcritureComptableUnit(vEcritureComptable);
+        }
+        catch(FunctionalException e)
+        {
+            Assert.fail();
+        }
     }
 }

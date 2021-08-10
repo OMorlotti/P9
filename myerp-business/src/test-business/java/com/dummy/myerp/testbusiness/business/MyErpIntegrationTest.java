@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -40,14 +41,14 @@ public class MyErpIntegrationTest extends BusinessTestCase
 	}
 
 	@Test
-	public void ecritureComptableCheckSuccess() throws FunctionalException
+	public void ecritureComptableCheckSuccess()
 	{
 		Date dateEnCours = new Date();
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
 		String yearRef = simpleDateFormat.format(dateEnCours);
 
 		EcritureComptable vEcritureComptable = new EcritureComptable();
-		vEcritureComptable.setId(456646321);
+		vEcritureComptable.setId(123456789);
 		vEcritureComptable.setJournal(new JournalComptable("VE", "Vente"));
 		vEcritureComptable.setReference("VE-" + yearRef + "/00006");
 		vEcritureComptable.setDate(dateEnCours);
@@ -60,15 +61,18 @@ public class MyErpIntegrationTest extends BusinessTestCase
 			new CompteComptable(706), "Libellé de test", null, new BigDecimal(456))
 		);
 
-		comptabiliteManager.insertEcritureComptable(vEcritureComptable);
-
-		comptabiliteManager.updateEcritureComptable(vEcritureComptable);
-
-		comptabiliteManager.deleteEcritureComptable(vEcritureComptable.getId());
+		try
+		{
+			comptabiliteManager.checkEcritureComptable(vEcritureComptable);
+		}
+		catch(FunctionalException e)
+		{
+			Assert.fail();
+		}
 	}
 
 	@Test(expected = FunctionalException.class)
-	public void ecritureComptableCheckError() throws FunctionalException
+	public void ecritureComptableCheckFail() throws FunctionalException
 	{
 		Date dateEnCours = new Date();
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
@@ -87,17 +91,183 @@ public class MyErpIntegrationTest extends BusinessTestCase
 			new CompteComptable(706), null, null, new BigDecimal(456))
 		);
 
-		comptabiliteManager.updateEcritureComptable(vEcritureComptable);
+		comptabiliteManager.checkEcritureComptable(vEcritureComptable);
+
+		Assert.fail();
 	}
 
 	@Test
-	public void ecritureComptableUpdate() throws FunctionalException
+	public void ecritureComptableAdd()
 	{
-		List<EcritureComptable> ecrituresComptable = comptabiliteManager.getListEcritureComptable();
+		Date dateEnCours = new Date();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
+		String yearRef = simpleDateFormat.format(dateEnCours);
 
-		if(!ecrituresComptable.isEmpty())
+		EcritureComptable vEcritureComptable = new EcritureComptable();
+		vEcritureComptable.setId(123456789);
+		vEcritureComptable.setJournal(new JournalComptable("VE", "Vente"));
+		vEcritureComptable.setReference("VE-" + yearRef + "/00006");
+		vEcritureComptable.setDate(dateEnCours);
+		vEcritureComptable.setLibelle("Libellé de test");
+
+		vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(
+			new CompteComptable(411), "Libellé de test", new BigDecimal(456), null)
+		);
+		vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(
+			new CompteComptable(706), "Libellé de test", null, new BigDecimal(456))
+		);
+
+		try
 		{
-			comptabiliteManager.updateEcritureComptable(ecrituresComptable.get(0));
+			comptabiliteManager.insertEcritureComptable(vEcritureComptable);
+
+			List<EcritureComptable> ecritureComptableList = comptabiliteManager.getListEcritureComptable();
+
+			BigDecimal vRetour = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_EVEN);
+			vRetour = vRetour.add(new BigDecimal(250));
+
+			for (EcritureComptable ecritureComptable: ecritureComptableList)
+			{
+				if(ecritureComptable.getId() == 123456789)
+				{
+					Assert.assertEquals("Libellé de test", ecritureComptable.getLibelle());
+					Assert.assertEquals("VE-" + yearRef + "/00006", ecritureComptable.getReference());
+
+					for (LigneEcritureComptable ligneEcritureComptable : ecritureComptable.getListLigneEcriture()) {
+						if (ligneEcritureComptable.getCredit() != null){
+							Assert.assertEquals(vRetour, ligneEcritureComptable.getCredit());
+						}
+						if (ligneEcritureComptable.getDebit() != null){
+							Assert.assertEquals(vRetour, ligneEcritureComptable.getDebit());
+						}
+					}
+				}
+			}
+
+			comptabiliteManager.deleteEcritureComptable(vEcritureComptable.getId());
+		}
+		catch(FunctionalException e)
+		{
+			Assert.fail();
+		}
+	}
+
+	@Test
+	public void ecritureComptableUpdate()
+	{
+		Date dateEnCours = new Date();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
+		String yearRef = simpleDateFormat.format(dateEnCours);
+
+		EcritureComptable vEcritureComptable = new EcritureComptable();
+		vEcritureComptable.setId(123456789);
+		vEcritureComptable.setJournal(new JournalComptable("VE", "Vente"));
+		vEcritureComptable.setReference("VE-" + yearRef + "/00006");
+		vEcritureComptable.setDate(dateEnCours);
+		vEcritureComptable.setLibelle("Libellé de test");
+
+		vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(
+			new CompteComptable(411), "Libellé de test", new BigDecimal(456), null)
+		);
+		vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(
+			new CompteComptable(706), "Libellé de test", null, new BigDecimal(456))
+		);
+
+		try
+		{
+			comptabiliteManager.insertEcritureComptable(vEcritureComptable);
+
+			List<EcritureComptable> ecritureComptableList1 = comptabiliteManager.getListEcritureComptable();
+
+			for (EcritureComptable ecritureComptable1 : ecritureComptableList1)
+			{
+				if(ecritureComptable1.getId() == 123456789)
+				{
+					ecritureComptable1.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(411),
+						null, new BigDecimal(250),
+						null));
+					ecritureComptable1.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(706),
+						null, null,
+						new BigDecimal(250)));
+
+					comptabiliteManager.updateEcritureComptable(ecritureComptable1);
+
+					List<EcritureComptable> ecritureComptableList2 = comptabiliteManager.getListEcritureComptable();
+
+					BigDecimal vRetour = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_EVEN);
+					vRetour = vRetour.add(new BigDecimal(250));
+
+					for(EcritureComptable ecritureComptable2: ecritureComptableList2)
+					{
+						if(ecritureComptable2.getId() == 123456789)
+						{
+							Assert.assertEquals("Libellé de test", ecritureComptable2.getLibelle());
+							Assert.assertEquals("VE-" + yearRef + "/00006", ecritureComptable2.getReference());
+
+							for(LigneEcritureComptable ligneEcritureComptable : ecritureComptable2.getListLigneEcriture())
+							{
+								if(ligneEcritureComptable.getCredit() != null)
+								{
+									Assert.assertEquals(vRetour, ligneEcritureComptable.getCredit());
+								}
+								if(ligneEcritureComptable.getDebit() != null)
+								{
+									Assert.assertEquals(vRetour, ligneEcritureComptable.getDebit());
+								}
+							}
+						}
+					}
+				}
+			}
+
+			comptabiliteManager.deleteEcritureComptable(vEcritureComptable.getId());
+		}
+		catch(FunctionalException e)
+		{
+			Assert.fail();
+		}
+	}
+
+	@Test
+	public void checkDeleteEcritureComptable()
+	{
+		Date dateEnCours = new Date();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
+		String yearRef = simpleDateFormat.format(dateEnCours);
+
+		EcritureComptable vEcritureComptable = new EcritureComptable();
+		vEcritureComptable.setId(123456789);
+		vEcritureComptable.setJournal(new JournalComptable("VE", "Vente"));
+		vEcritureComptable.setReference("VE-" + yearRef + "/00006");
+		vEcritureComptable.setDate(dateEnCours);
+		vEcritureComptable.setLibelle("Libellé de test");
+
+		vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(
+			new CompteComptable(411), "Libellé de test", new BigDecimal(456), null)
+		);
+		vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(
+			new CompteComptable(706), "Libellé de test", null, new BigDecimal(456))
+		);
+
+		try
+		{
+			comptabiliteManager.insertEcritureComptable(vEcritureComptable);
+
+			comptabiliteManager.deleteEcritureComptable(vEcritureComptable.getId());
+
+			List<EcritureComptable> ecritureComptableList = comptabiliteManager.getListEcritureComptable();
+
+			for(EcritureComptable ecritureComptable: ecritureComptableList)
+			{
+				if(ecritureComptable.getId() == 123456789)
+				{
+					Assert.fail();
+				}
+			}
+		}
+		catch(FunctionalException e)
+		{
+			Assert.fail();
 		}
 	}
 }
