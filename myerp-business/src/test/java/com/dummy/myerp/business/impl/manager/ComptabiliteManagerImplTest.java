@@ -66,6 +66,8 @@ public class ComptabiliteManagerImplTest {
         try
         {
             manager.checkEcritureComptableUnit(vEcritureComptable);
+
+            Assert.assertTrue(true);
         }
         catch(FunctionalException e)
         {
@@ -190,7 +192,9 @@ public class ComptabiliteManagerImplTest {
 
         try
         {
-            manager.checkEcritureComptableUnit(vEcritureComptable);
+            manager.checkEcritureComptableUnit(vEcritureComptable);Assert.assertTrue(true);
+
+            Assert.assertTrue(true);
         }
         catch(FunctionalException e)
         {
