@@ -269,8 +269,6 @@ public class MyErpIntegrationTest extends BusinessTestCase
 
 			comptabiliteManager.deleteEcritureComptable(vEcritureComptable.getId());
 
-			Assert.assertTrue(true);
-
 			List<EcritureComptable> ecritureComptableList = comptabiliteManager.getListEcritureComptable();
 
 			for(EcritureComptable ecritureComptable: ecritureComptableList)
