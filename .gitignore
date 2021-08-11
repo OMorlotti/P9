@@ -1,13 +1,10 @@
-/target
-/*-*/target
+target
 
-/.settings
-/.project
-/*-*/.project
-/*-*/.settings
-/*-*/.classpath
-/*-*/.checkstyle
-/*-*/.springBeans
+.project
+.settings
+.classpath
+.checkstyle
+.springBeans
 
-/.idea
+.idea
 *.iml
