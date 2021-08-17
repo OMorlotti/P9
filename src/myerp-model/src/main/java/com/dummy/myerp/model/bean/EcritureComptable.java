@@ -23,7 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 @Setter
 public class EcritureComptable {
 
-    public static final String REFERENCE_PATTERN = "([A-Z]{2})-(\\d{4})/(\\d{5})";
+    public static final String REFERENCE_PATTERN = "([A-Z]{2})-(\\d{4})/(\\d{5})"; // Erreur sur l'expression régulière : \D au lieu de [A-Z]{2}
 
     // ==================== Attributs ====================
     /** The Id. */
@@ -31,7 +31,7 @@ public class EcritureComptable {
     /** Journal comptable */
     @NotNull private JournalComptable journal;
     /** The Reference. */
-    @Pattern(regexp = REFERENCE_PATTERN) // Erreur sur l'expression régulière : \D au lieu de [A-Z]{2}
+    @Pattern(regexp = REFERENCE_PATTERN)
     private String reference;
     /** The Date. */
     @NotNull private Date date;
