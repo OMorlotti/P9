@@ -12,7 +12,7 @@ before_install:
 
 script:
   # the following command line builds the project, runs the tests
-  - mvn test -Ptest-business
+  - mvn package
   - mvn sonar:sonar
 
 after_script:
