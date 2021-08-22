@@ -12,8 +12,9 @@ before_install:
 
 script:
   # the following command line builds the project, runs the tests
-  - mvn package
-  - mvn sonar:sonar
+  - mvn clear package
+  - mvn test -Ptest-business
+  #- mvn sonar:sonar // Désactivé puisque Jenkins le fait déjà
 
 after_script:
   - docker-compose -f docker/dev/docker-compose.yml stop
