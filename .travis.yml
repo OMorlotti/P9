@@ -12,7 +12,6 @@ before_install:
 
 script:
   # the following command line builds the project, runs the tests
-  - mvn clear package
   - mvn test -Ptest-business
   #- mvn sonar:sonar // Désactivé puisque Jenkins le fait déjà
 
