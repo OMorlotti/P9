@@ -7,6 +7,7 @@ services:
   - docker
 
 before_install:
+  # Fabrication de l'image Docker
   - docker-compose -f docker/dev/docker-compose.yml up -d
   - cd src
 
@@ -16,5 +17,6 @@ script:
   #- mvn sonar:sonar // Désactivé puisque Jenkins le fait déjà
 
 after_script:
+  # Stop l'image et l'efface
   - docker-compose -f docker/dev/docker-compose.yml stop
   - docker-compose -f docker/dev/docker-compose.yml rm -f
