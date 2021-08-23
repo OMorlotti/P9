@@ -20,5 +20,3 @@ after_script:
   # Stop l'image et l'efface
   - docker-compose -f docker/dev/docker-compose.yml stop
   - docker-compose -f docker/dev/docker-compose.yml rm -f
-
-# TEST #
